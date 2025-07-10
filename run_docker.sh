@@ -1,10 +1,9 @@
 #!/bin/bash
 echo "Running Docker Build and Container..."
 
-export PATH=/usr/bin:/usr/local/bin:$PATH
+# Use full path to Docker binary
+/usr/bin/docker build -t signup-app .
 
-docker build -t signup-app .
+/usr/bin/docker rm -f signup || true
 
-docker rm -f signup || true
-
-docker run -d -p 5000:5000 --name signup signup-app
+/usr/bin/docker run -d -p 5000:5000 --name signup signup-app
