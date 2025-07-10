@@ -5,7 +5,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('signup-app')
+                    sh '/usr/bin/docker build -t signup-app .'
                 }
             }
         }
@@ -13,8 +13,8 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    sh 'docker rm -f signup || true'
-                    sh 'docker run -d -p 5000:5000 --name signup signup-app'
+                    sh '/usr/bin/docker rm -f signup || true'
+                    sh '/usr/bin/docker run -d -p 5000:5000 --name signup signup-app'
                 }
             }
         }
