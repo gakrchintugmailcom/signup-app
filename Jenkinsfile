@@ -1,13 +1,18 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_PATH = "/usr/bin"
+    }
+
     stages {
         stage('Build Docker Image') {
             steps {
                 script {
                     sh '''
+                        export PATH=$DOCKER_PATH:$PATH
                         echo "Building Docker image..."
-                        /usr/bin/docker build -t signup-app .
+                        docker build -t signup-app .
                     '''
                 }
             }
@@ -17,14 +22,14 @@ pipeline {
             steps {
                 script {
                     sh '''
+                        export PATH=$DOCKER_PATH:$PATH
                         echo "Stopping existing container if any..."
-                        /usr/bin/docker rm -f signup || true
+                        docker rm -f signup || true
                         echo "Running new container..."
-                        /usr/bin/docker run -d -p 5000:5000 --name signup signup-app
+                        docker run -d -p 5000:5000 --name signup signup-app
                     '''
                 }
             }
         }
     }
 }
-
