@@ -36,7 +36,17 @@ pipeline {
                 kubectl apply -f k8s/deployment.yaml
                 kubectl apply -f k8s/service.yaml
                 '''
-            }
         }
+stage('Build and Push Docker Image') {
+    steps {
+        sh 'docker build -t anilsfdcgmailcom/signup-app:latest .'
+        sh 'docker login -u anilsfdcgmailcom -p <your-dockerhub-password>'
+        sh 'docker push anilsfdcgmailcom/signup-app:latest'
+    }
+}
+
+        
+        }
+        
     }
 }
